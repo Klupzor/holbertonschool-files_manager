@@ -1,15 +1,30 @@
-"use strict";
+import dbClient from './utils/db';
 
-var _redis = _interopRequireDefault(require("./utils/redis"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const waitConnection = () => {
+  return new Promise((resolve, reject) => {
+    let i = 0;
+    const repeatFct = async () => {
+      await setTimeout(() => {
+        i += 1;
+        if (i >= 10) {
+          reject()
+        }
+        else if (!dbClient.isAlive()) {
+          repeatFct()
+        }
+        else {
+          resolve()
+        }
+      }, 1000);
+    };
+    repeatFct();
+  })
+};
 
 (async () => {
-  console.log(_redis.default.isAlive());
-  console.log(await _redis.default.get('myKey'));
-  await _redis.default.set('myKey', 12, 5);
-  console.log(await _redis.default.get('myKey'));
-  setTimeout(async () => {
-    console.log(await _redis.default.get('myKey'));
-  }, 1000 * 10);
+  console.log(dbClient.isAlive());
+  await waitConnection();
+  console.log(dbClient.isAlive());
+  console.log(await dbClient.nbUsers());
+  console.log(await dbClient.nbFiles());
 })();
