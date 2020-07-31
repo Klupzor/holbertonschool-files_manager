@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const sha1 = require('sha1');
 
 class DBClient {
   constructor() {
@@ -43,6 +44,29 @@ class DBClient {
       console.error(error);
     }
     return false;
+  }
+
+  async findUserByEmail(email) {
+    try {
+      const user = await this.db.collection('users').findOne({ email });
+      return user;
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  }
+
+  async createUser(email, password) {
+    try {
+      const user = await this.db.collection('users').insertOne({
+        email,
+        password: sha1(password),
+      });
+      return user.ops[0];
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
   }
 }
 
