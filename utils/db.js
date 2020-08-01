@@ -104,6 +104,17 @@ class DBClient {
     }
     return null;
   }
+
+  async getFilesByUserID(userId) {
+    try {
+      const cursor = await this.db.collection('files').find({ userId });
+      const data = cursor.toArray();
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  }
 }
 
 const dbClient = new DBClient();

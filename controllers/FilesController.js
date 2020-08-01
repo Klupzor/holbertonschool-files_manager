@@ -44,4 +44,18 @@ async function postUpload(params, userId) {
   return folder;
 }
 
-module.exports = { postUpload };
+async function getShow(id) {
+  const file = await dbClient.findFileById(id);
+  if (!file) {
+    throw new Error('Not found');
+  }
+}
+
+async function getIndex(id) {
+  const file = await dbClient.getFilesByUserID(id);
+  if (!file) {
+    throw new Error('Not found');
+  }
+}
+
+module.exports = { postUpload, getShow, getIndex };

@@ -82,4 +82,26 @@ router.post('/files', tokenMiddelware, async (req, res) => {
   }
 });
 
+router.get('/files/:id', tokenMiddelware, async (req, res) => {
+  try {
+    const file = await FilesController.getShow(req.params.id);
+    res.send(file);
+  } catch (error) {
+    res.status(401).send({
+      error: error.message,
+    });
+  }
+});
+
+router.get('/files', tokenMiddelware, async (req, res) => {
+  try {
+    const file = await FilesController.getIndex(req.userId);
+    res.send(file);
+  } catch (error) {
+    res.status(401).send({
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;
