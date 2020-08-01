@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const sha1 = require('sha1');
 
 class DBClient {
@@ -63,6 +63,22 @@ class DBClient {
         password: sha1(password),
       });
       return user.ops[0];
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  }
+
+  async findUserById(id) {
+    try {
+      const user = await this.db.collection('users').findOne({ _id: ObjectId(id) },
+        {
+          projection: {
+            email: 1,
+            _id: 1,
+          },
+        });
+      return user;
     } catch (error) {
       console.error(error);
     }

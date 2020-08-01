@@ -19,4 +19,12 @@ async function postNew(params) {
   return user;
 }
 
-module.exports = { postNew };
+async function getMe(id) {
+  const user = await dbClient.findUserById(id);
+  if (!user) {
+    throw new Error('user dont find');
+  }
+  return user;
+}
+
+module.exports = { postNew, getMe };
