@@ -2,6 +2,7 @@ const express = require('express');
 const AppController = require('../controllers/AppController');
 const UserController = require('../controllers/UsersController');
 const AuthController = require('../controllers/AuthController');
+const FilesController = require('../controllers/FilesController');
 const tokenMiddelware = require('../utils/token');
 
 const router = express.Router();
@@ -65,6 +66,17 @@ router.get('/users/me', tokenMiddelware, async (req, res) => {
     res.send(user);
   } catch (error) {
     res.status(401).send({
+      error: error.message,
+    });
+  }
+});
+
+router.post('/files', tokenMiddelware, async (req, res) => {
+  try {
+    const file = await FilesController.postUpload(req.body, req.userId);
+    res.send(file);
+  } catch (error) {
+    res.status(400).send({
       error: error.message,
     });
   }

@@ -84,6 +84,26 @@ class DBClient {
     }
     return null;
   }
+
+  async findFileById(id) {
+    try {
+      const file = await this.db.collection('files').findOne({ _id: ObjectId(id) });
+      return file;
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  }
+
+  async createFile(data) {
+    try {
+      const user = await this.db.collection('files').insertOne(data);
+      return user.ops[0];
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  }
 }
 
 const dbClient = new DBClient();
