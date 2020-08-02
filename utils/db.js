@@ -115,6 +115,42 @@ class DBClient {
     }
     return null;
   }
+
+  async putPublish(id) {
+    try {
+      const file = await this.db.collection('files').findOneAndUpdate(
+        { _id: ObjectId(id) },
+        {
+          $set: { isPublic: true },
+        },
+        {
+          returnNewDocument: true,
+        },
+      );
+      return file;
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  }
+
+  async putUnpublish(id) {
+    try {
+      const file = await this.db.collection('files').findOneAndUpdate(
+        { _id: ObjectId(id) },
+        {
+          $set: { isPublic: false },
+        },
+        {
+          returnNewDocument: true,
+        },
+      );
+      return file;
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  }
 }
 
 const dbClient = new DBClient();

@@ -49,6 +49,7 @@ async function getShow(id) {
   if (!file) {
     throw new Error('Not found');
   }
+  return file;
 }
 
 async function getIndex(id) {
@@ -56,6 +57,29 @@ async function getIndex(id) {
   if (!file) {
     throw new Error('Not found');
   }
+  return file;
 }
 
-module.exports = { postUpload, getShow, getIndex };
+async function putPublish(id) {
+  const file = await dbClient.putPublish(id);
+  if (!file) {
+    throw new Error('Not found');
+  }
+  return file.value;
+}
+
+async function putUnpublish(id) {
+  const file = await dbClient.putUnpublish(id);
+  if (!file) {
+    throw new Error('Not found');
+  }
+  return file.value;
+}
+
+module.exports = {
+  postUpload,
+  getShow,
+  getIndex,
+  putPublish,
+  putUnpublish,
+};

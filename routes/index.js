@@ -104,4 +104,26 @@ router.get('/files', tokenMiddelware, async (req, res) => {
   }
 });
 
+router.put('/files/:id/publish', tokenMiddelware, async (req, res) => {
+  try {
+    const file = await FilesController.putPublish(req.params.id);
+    res.send(file);
+  } catch (error) {
+    res.status(401).send({
+      error: error.message,
+    });
+  }
+});
+
+router.put('/files/:id/unpublish', tokenMiddelware, async (req, res) => {
+  try {
+    const file = await FilesController.putUnpublish(req.params.id);
+    res.send(file);
+  } catch (error) {
+    res.status(401).send({
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;
