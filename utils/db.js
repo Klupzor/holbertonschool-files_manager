@@ -116,10 +116,10 @@ class DBClient {
     return null;
   }
 
-  async putPublish(id) {
+  async putPublish(id, userId) {
     try {
       const file = await this.db.collection('files').findOneAndUpdate(
-        { _id: ObjectId(id) },
+        { $and: [{ _id: ObjectId(id) }, { userId }] },
         {
           $set: { isPublic: true },
         },
@@ -134,10 +134,10 @@ class DBClient {
     return null;
   }
 
-  async putUnpublish(id) {
+  async putUnpublish(id, userId) {
     try {
       const file = await this.db.collection('files').findOneAndUpdate(
-        { _id: ObjectId(id) },
+        { $and: [{ _id: ObjectId(id) }, { userId }] },
         {
           $set: { isPublic: false },
         },

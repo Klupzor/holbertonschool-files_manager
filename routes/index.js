@@ -106,7 +106,7 @@ router.get('/files', tokenMiddelware, async (req, res) => {
 
 router.put('/files/:id/publish', tokenMiddelware, async (req, res) => {
   try {
-    const file = await FilesController.putPublish(req.params.id);
+    const file = await FilesController.putPublish(req.params.id, req.userId);
     res.send(file);
   } catch (error) {
     res.status(401).send({
@@ -117,7 +117,7 @@ router.put('/files/:id/publish', tokenMiddelware, async (req, res) => {
 
 router.put('/files/:id/unpublish', tokenMiddelware, async (req, res) => {
   try {
-    const file = await FilesController.putUnpublish(req.params.id);
+    const file = await FilesController.putUnpublish(req.params.id, req.userId);
     res.send(file);
   } catch (error) {
     res.status(401).send({

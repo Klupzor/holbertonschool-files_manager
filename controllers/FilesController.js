@@ -60,16 +60,16 @@ async function getIndex(id) {
   return file;
 }
 
-async function putPublish(id) {
-  const file = await dbClient.putPublish(id);
+async function putPublish(id, userId) {
+  const file = await dbClient.putPublish(id, userId);
   if (!file) {
     throw new Error('Not found');
   }
   return file.value;
 }
 
-async function putUnpublish(id) {
-  const file = await dbClient.putUnpublish(id);
+async function putUnpublish(id, userId) {
+  const file = await dbClient.putUnpublish(id, userId);
   if (!file) {
     throw new Error('Not found');
   }
